@@ -3,17 +3,23 @@ exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+// tslint:disable-next-line: no-var-requires
+var pkg = require('../package.json');
 var MyWindow = /** @class */ (function () {
     function MyWindow() {
     }
     MyWindow.prototype.create = function () {
         var _this = this;
         this.mainWindow = new electron_1.BrowserWindow({ width: 800, height: 600 });
-        this.mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, "./build/index.html"),
-            protocol: "file:",
-            slashes: true
-        }));
+        if (pkg.DEV) {
+            this.mainWindow.loadURL("http://localhost:3000");
+        }
+        else {
+            this.mainWindow.loadURL(url.format({
+                pathname: path.join(__dirname, "./build/index.html"),
+                slashes: true
+            }));
+        }
         this.mainWindow.webContents.openDevTools();
         this.mainWindow.on("closed", function () {
             _this.mainWindow = null;
