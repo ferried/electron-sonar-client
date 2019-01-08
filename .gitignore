@@ -2,3 +2,5 @@
 *yarn.*
 /dist/**
 /.sonarlint/**
+/build/**
+/myapp/**
