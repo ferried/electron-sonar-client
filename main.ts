@@ -2,7 +2,7 @@ import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import * as url from "url";
 // tslint:disable-next-line: no-var-requires
-const pkg = require('../package.json')
+const pkg = require('./package.json');
 export class MyWindow {
   private mainWindow: BrowserWindow | null;
   public create(): void {
@@ -13,6 +13,7 @@ export class MyWindow {
       this.mainWindow.loadURL(
         url.format({
           pathname: path.join(__dirname, "./build/index.html"),
+          protocol: 'file:',
           slashes: true
         })
       );

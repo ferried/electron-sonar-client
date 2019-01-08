@@ -4,7 +4,7 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 // tslint:disable-next-line: no-var-requires
-var pkg = require('../package.json');
+var pkg = require('./package.json');
 var MyWindow = /** @class */ (function () {
     function MyWindow() {
     }
@@ -17,6 +17,7 @@ var MyWindow = /** @class */ (function () {
         else {
             this.mainWindow.loadURL(url.format({
                 pathname: path.join(__dirname, "./build/index.html"),
+                protocol: 'file:',
                 slashes: true
             }));
         }
