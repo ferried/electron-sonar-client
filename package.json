@@ -5,7 +5,7 @@
   "main": "main.js",
   "author": "ferried <harlancui@outlook.com>",
   "license": "MIT",
-  "DEV": false,
+  "DEV": true,
   "homepage": ".",
   "scripts": {
     "start": "react-scripts-ts-antd start",
