@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "alwaysStrict": true,
+    "declarationDir": "./dist",
+    "diagnostics": true,
+    "disableSizeLimit": false,
+    "sourceMap": true,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "jsx": "react",
+    "lib": ["es2015", "es2016", "es2017", "es2018"],
+    "listEmittedFiles": true,
+    "listFiles": true,
+    "module": "commonjs",
+    "noLib": false,
+    "moduleResolution": "node",
+    "target": "esnext",
+    "traceResolution": true,
+    "typeRoots": ["node_modules/@types"],
+    "removeComments": true,
+    "strict": true,
+    "esModuleInterop": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*", "test/**/*"]
+}
