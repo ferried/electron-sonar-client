@@ -6,7 +6,8 @@
   "author": "ferried <harlancui@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "tsc":"./node_modules/typescript/bin/tsc"
+    "tsc":"./node_modules/typescript/bin/tsc",
+    "changelog": "conventional-changelog  -i CHANGELOG.md -s -r 0 --pkg package.json"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
