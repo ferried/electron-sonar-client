@@ -4,20 +4,34 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 // tslint:disable-next-line: no-var-requires
-var pkg = require('./package.json');
+var pkg = require("./package.json");
 var MyWindow = /** @class */ (function () {
     function MyWindow() {
     }
     MyWindow.prototype.create = function () {
         var _this = this;
-        this.mainWindow = new electron_1.BrowserWindow({ width: 800, height: 600 });
+        this.mainWindow = new electron_1.BrowserWindow({
+            autoHideMenuBar: true,
+            fullscreenable: false,
+            height: 600,
+            width: 800,
+            // tslint:disable-next-line: object-literal-sort-keys
+            webPreferences: {
+                javascript: true,
+                plugins: true,
+                // tslint:disable-next-line: object-literal-sort-keys
+                nodeIntegration: false,
+                webSecurity: false,
+                preload: path.join(__dirname, "./public/render.js") // 但预加载的 js 文件内仍可以使用 Nodejs 的 API
+            }
+        });
         if (pkg.DEV) {
             this.mainWindow.loadURL("http://localhost:3000");
         }
         else {
             this.mainWindow.loadURL(url.format({
                 pathname: path.join(__dirname, "./build/index.html"),
-                protocol: 'file:',
+                protocol: "file:",
                 slashes: true
             }));
         }
