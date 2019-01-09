@@ -5,19 +5,33 @@ import { Select } from "antd";
 import * as React from "react";
 import "./App.css";
 
+// tslint:disable-next-line: no-string-literal no-var-requires
+const electron = global["electron"];
 const Option = Select.Option;
 class App extends React.Component {
   public render() {
+    // tslint:disable-next-line: no-console
+    console.log(electron.remote);
+    const notification = new electron.remote.Notification({
+      body: "this is an message body",
+      title: "this is an message title"
+    });
+    notification.show();
     return (
       <div className="App" style={{ backgroundColor: "rgb(249, 249, 251)" }}>
         <Row type="flex" justify="center">
-        <img src="sonar.png"/>
+          <img src="sonar.png" />
           <div style={{ marginTop: "5%" }}>
             <Col span={24} push={6}>
               <Select defaultValue="typescript">
                 <Option value="javascript">javascript</Option>
                 <Option value="typescript">typescript</Option>
               </Select>
+            </Col>
+            <Col span={24} push={6}>
+              <div style={{ width: "50%", marginTop: "10px" }}>
+                <Input addonBefore="项目目录" defaultValue="" />
+              </div>
             </Col>
             <Col span={24} push={6}>
               <div style={{ width: "50%", marginTop: "10px" }}>
