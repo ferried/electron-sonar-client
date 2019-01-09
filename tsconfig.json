@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
+    "rootDirs": [".","./src","./public"],
     "module": "esnext",
     "target": "es5",
     "lib": ["es6", "dom"],
