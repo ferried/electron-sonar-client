@@ -1,14 +1,15 @@
 export default interface AppState {
-  projectName: string;
-  group: string;
-  language: string;
-  version: string;
-  encoding: string;
-  sonaruri: string;
-  sonarsources: string;
-  exclusions: string;
-  sonartests: string;
-  inclusions: string;
-  lint: string;
-  loading: boolean;
+  path: string | null;
+  projectName: string | null;
+  group: string | null;
+  language: string | null;
+  projectVersion: string | null;
+  encoding: string | null;
+  sonaruri: string | null;
+  sonarsources: string | null;
+  exclusions: string | null;
+  sonartests: string | null;
+  inclusions: string | null;
+  lint: string | null;
+  loading: boolean ;
 }
