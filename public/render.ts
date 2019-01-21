@@ -1,9 +1,13 @@
+import * as electron from "electron";
+import * as fs from "fs";
 
-import * as electron from 'electron';
-import * as fs from 'fs';
-const pkg = require("../package.json");
+const loadPackage = function(path: string) {
+  const pkg = require(path);
+  return pkg;
+};
+
 // tslint:disable-next-line: no-string-literal no-var-requires
 global["electron"] = electron;
 // tslint:disable-next-line: no-string-literal no-var-requires
 global["fs"] = fs;
-global["pkg"] = pkg;
+global["loadPackage"] = loadPackage;
