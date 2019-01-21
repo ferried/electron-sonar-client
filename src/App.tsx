@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Select, Button, Input } from "antd";
+import { Form, Select, Button, Input, Row } from "antd";
 import "./App.css";
 // import Package from "./native/Package";
 import AppComponentProp from "./prop/AppProp";
@@ -14,7 +14,7 @@ const App = Form.create()(
     constructor(props: AppComponentProp) {
       super(props);
       this.state = {
-        path: null,
+        path: "E://",
         projectName: null,
         group: "yunzai",
         language: "ts",
@@ -25,7 +25,7 @@ const App = Form.create()(
         exclusions: "**/node_modules/**,**/*.spec.ts",
         sonartests: "src/app",
         inclusions: "**/*.spec.ts",
-        lint: "tslint.json",
+        lint: "./tslint.json",
         loading: false
       };
     }
@@ -62,7 +62,9 @@ const App = Form.create()(
 
       return (
         <div style={{ backgroundColor: "rgb(249,249,251)" }}>
-          <img src="sonar.png" />
+          <Row type="flex" justify="center" align="top">
+            <img src="sonar.png" />
+          </Row>
           <Form onSubmit={this.generateProperties}>
             <FormItem
               {...formItemLayout}
@@ -101,7 +103,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input project path!"
                   }
-                ]
+                ],
+                initialValue: this.state.path
               })(<Input />)}
             </FormItem>
 
@@ -133,7 +136,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input project version"
                   }
-                ]
+                ],
+                initialValue: this.state.projectVersion
               })(<Input />)}
             </FormItem>
 
@@ -149,7 +153,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input project group!"
                   }
-                ]
+                ],
+                initialValue: this.state.group
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -164,7 +169,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input project encoding!"
                   }
-                ]
+                ],
+                initialValue: this.state.encoding
               })(<Input />)}
             </FormItem>
 
@@ -180,7 +186,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input sonar server url!"
                   }
-                ]
+                ],
+                initialValue: this.state.sonaruri
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -195,7 +202,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input scan path!"
                   }
-                ]
+                ],
+                initialValue: this.state.sonarsources
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -210,7 +218,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input ignore scan path!"
                   }
-                ]
+                ],
+                initialValue: this.state.exclusions
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -225,7 +234,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input test path!"
                   }
-                ]
+                ],
+                initialValue: this.state.sonartests
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -240,7 +250,8 @@ const App = Form.create()(
                     required: true,
                     message: "Please input test include path!"
                   }
-                ]
+                ],
+                initialValue: this.state.inclusions
               })(<Input />)}
             </FormItem>
             <FormItem
@@ -255,11 +266,17 @@ const App = Form.create()(
                     required: true,
                     message: "Please input tslint/eslint path!"
                   }
-                ]
+                ],
+                initialValue: this.state.lint
               })(<Input />)}
             </FormItem>
             <FormItem {...formTailLayout}>
-              <Button type="primary" size={"large"} htmlType="submit">
+              <Button
+                type="primary"
+                size={"large"}
+                loading={this.state.loading}
+                htmlType="submit"
+              >
                 Generate Sonar Properties
               </Button>
             </FormItem>

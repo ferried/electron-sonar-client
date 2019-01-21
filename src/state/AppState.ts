@@ -11,5 +11,5 @@ export default interface AppState {
   sonartests: string | null;
   inclusions: string | null;
   lint: string | null;
-  loading: boolean | null;
+  loading: boolean ;
 }
