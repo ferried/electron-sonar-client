@@ -39,6 +39,7 @@ export class MyWindow {
   }
 
   public start(): void {
+    app.commandLine.appendSwitch("--disable-http-cache");
     app.on("ready", this.create);
     app.on("window-all-closed", () => {
       if (process.platform !== "darwin") {
