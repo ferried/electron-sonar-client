@@ -42,6 +42,7 @@ var MyWindow = /** @class */ (function () {
     };
     MyWindow.prototype.start = function () {
         var _this = this;
+        electron_1.app.commandLine.appendSwitch("--disable-http-cache");
         electron_1.app.on("ready", this.create);
         electron_1.app.on("window-all-closed", function () {
             if (process.platform !== "darwin") {
