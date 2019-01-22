@@ -1,9 +1,7 @@
 export default interface AppState {
   path: string | null;
-  projectName: string | null;
   group: string | null;
   language: string | null;
-  projectVersion: string | null;
   encoding: string | null;
   sonaruri: string | null;
   sonarsources: string | null;

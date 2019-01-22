@@ -1,11 +1,9 @@
 import * as React from "react";
 import { Form, Select, Button, Input, Row } from "antd";
 import "./App.css";
-// import Package from "./native/Package";
 import AppComponentProp from "./prop/AppProp";
 import AppState from "./state/AppState";
-// const electron = global["electron"];
-// const fs = global["fs"];
+import { Sonar } from "./native/Sonar";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -15,10 +13,8 @@ const App = Form.create()(
       super(props);
       this.state = {
         path: "E://",
-        projectName: null,
         group: "yunzai",
         language: "ts",
-        projectVersion: "0.0.0-alpha",
         encoding: "utf-8",
         sonaruri: "http://192.168.102.128:9000",
         sonarsources: "src/app",
@@ -31,14 +27,26 @@ const App = Form.create()(
     }
 
     generateProperties = (e: any) => {
+      this.setState({ loading: true });
       e.preventDefault();
-      this.props.form.validateFields((err, values) => {
+      this.props.form.validateFields(async (err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          const sonar: Sonar = new Sonar(values);
+          const path = await sonar.checkPath();
+          console.log(path);
+          if (!path) {
+            this.setState({ loading: false });
+            return;
+          }
+          const pkg = await sonar.checkPkg();
+          console.log(pkg);
+          if (!pkg) {
+            this.setState({ loading: false });
+            return;
+          }
         }
       });
     };
-
     public render() {
       const getFieldDecorator = this.props.form.getFieldDecorator;
       const formItemLayout = {
@@ -105,39 +113,6 @@ const App = Form.create()(
                   }
                 ],
                 initialValue: this.state.path
-              })(<Input />)}
-            </FormItem>
-
-            <FormItem
-              {...formItemLayout}
-              label="ProjectName"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 12 }}
-            >
-              {getFieldDecorator("projectName", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input project name!"
-                  }
-                ]
-              })(<Input />)}
-            </FormItem>
-
-            <FormItem
-              {...formItemLayout}
-              label="Version"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 12 }}
-            >
-              {getFieldDecorator("projectVersion", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input project version"
-                  }
-                ],
-                initialValue: this.state.projectVersion
               })(<Input />)}
             </FormItem>
 

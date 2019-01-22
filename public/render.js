@@ -6,8 +6,8 @@ var loadPackage = function (path) {
     var pkg = require(path);
     return pkg;
 };
-// tslint:disable-next-line: no-string-literal no-var-requires
+var exec = require("child_process").exec;
+global["exec"] = exec;
 global["electron"] = electron;
-// tslint:disable-next-line: no-string-literal no-var-requires
-global["fs"] = fs;
 global["loadPackage"] = loadPackage;
+global["fs"] = fs;
