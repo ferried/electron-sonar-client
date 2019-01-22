@@ -1,26 +1,22 @@
 import * as React from "react";
 import { Form, Select, Button, Input, Row } from "antd";
 import "./App.css";
-// import Package from "./native/Package";
 import AppComponentProp from "./prop/AppProp";
 import AppState from "./state/AppState";
 import { Mnotification } from "./native/Mnotification";
-// const electron = global["electron"];
-// const fs = global["fs"];
+import { Sonar } from "./native/Sonar";
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const App = Form.create()(
   class FormTest extends React.Component<AppComponentProp, AppState, any> {
+    private sonar: Sonar;
     constructor(props: AppComponentProp) {
       super(props);
-      new Mnotification("demoe", "demo");
       this.state = {
         path: "E://",
-        projectName: null,
         group: "yunzai",
         language: "ts",
-        projectVersion: "0.0.0-alpha",
         encoding: "utf-8",
         sonaruri: "http://192.168.102.128:9000",
         sonarsources: "src/app",
@@ -31,27 +27,27 @@ const App = Form.create()(
         loading: false
       };
     }
-
-    generateProperties = (e: any) => {
-      this.setState({ loading: true });
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-        if (!err) {
-          this.setState(values);
-          this.setState({ loading: false });
-        }
-        if (err) {
-          for (let obj in err) {
-            err[obj].errors.forEach((error:any)=>{
-               new Mnotification("Your Input Has Error", error.message);
-            })
-          }
-          this.setState({ loading: false });
-        }
-      });
-    };
-
     public render() {
+      const generateProperties = (e: any) => {
+        this.setState({ loading: true });
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+            this.setState({ loading: false });
+            this.sonar = new Sonar(values);
+            this.sonar.generateProperties();
+          }
+          if (err) {
+            for (let obj in err) {
+              err[obj].errors.forEach((error: any) => {
+                new Mnotification("Your Input Has Error", error.message);
+              });
+            }
+            this.setState({ loading: false });
+          }
+        });
+      };
+
       const getFieldDecorator = this.props.form.getFieldDecorator;
       const formItemLayout = {
         labelCol: {
@@ -77,7 +73,7 @@ const App = Form.create()(
           <Row type="flex" justify="center" align="top">
             <img src="sonar.png" />
           </Row>
-          <Form onSubmit={this.generateProperties}>
+          <Form onSubmit={generateProperties}>
             <FormItem
               {...formItemLayout}
               label="Language"
@@ -117,39 +113,6 @@ const App = Form.create()(
                   }
                 ],
                 initialValue: this.state.path
-              })(<Input />)}
-            </FormItem>
-
-            <FormItem
-              {...formItemLayout}
-              label="ProjectName"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 12 }}
-            >
-              {getFieldDecorator("projectName", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input project name!"
-                  }
-                ]
-              })(<Input />)}
-            </FormItem>
-
-            <FormItem
-              {...formItemLayout}
-              label="Version"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 12 }}
-            >
-              {getFieldDecorator("projectVersion", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input project version"
-                  }
-                ],
-                initialValue: this.state.projectVersion
               })(<Input />)}
             </FormItem>
 
