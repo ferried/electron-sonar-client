@@ -6,8 +6,6 @@ const loadPackage = function(path: string) {
   return pkg;
 };
 
-// tslint:disable-next-line: no-string-literal no-var-requires
 global["electron"] = electron;
-// tslint:disable-next-line: no-string-literal no-var-requires
 global["fs"] = fs;
 global["loadPackage"] = loadPackage;

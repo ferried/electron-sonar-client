@@ -4,6 +4,7 @@ import "./App.css";
 // import Package from "./native/Package";
 import AppComponentProp from "./prop/AppProp";
 import AppState from "./state/AppState";
+import { Mnotification } from "./native/Mnotification";
 // const electron = global["electron"];
 // const fs = global["fs"];
 
@@ -13,6 +14,7 @@ const App = Form.create()(
   class FormTest extends React.Component<AppComponentProp, AppState, any> {
     constructor(props: AppComponentProp) {
       super(props);
+      new Mnotification("demoe", "demo");
       this.state = {
         path: "E://",
         projectName: null,
@@ -31,10 +33,20 @@ const App = Form.create()(
     }
 
     generateProperties = (e: any) => {
+      this.setState({ loading: true });
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          this.setState(values);
+          this.setState({ loading: false });
+        }
+        if (err) {
+          for (let obj in err) {
+            err[obj].errors.forEach((error:any)=>{
+               new Mnotification("Your Input Has Error", error.message);
+            })
+          }
+          this.setState({ loading: false });
         }
       });
     };
