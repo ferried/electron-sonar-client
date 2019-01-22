@@ -10,19 +10,22 @@ export class Sonar {
     this.state = state;
   }
 
-  checkPath(): boolean {
-    const cmd = `cd ${this.state.path}`;
-    return this.exec(cmd, (error: any, stdout: any, stderr: any) => {
-      if (error) {
-        new Mnotification("Error", "Not Found File");
-        return false;
-      } else {
-        return true;
-      }
+  checkPath = async () => {
+    const temp = new Promise(async (resolve, rejects) => {
+      const cmd = `cd ${this.state.path}`;
+      await this.exec(cmd, (error: any, stdout: any, stderr: any) => {
+        if (!error) {
+          resolve(true);
+        } else {
+          new Mnotification("Error", "Not Found File");
+          resolve(false);
+        }
+      });
     });
-  }
+    return temp;
+  };
 
-  checkPkg(): boolean {
+  checkPkg = async () => {
     try {
       this.pkg = new Package(`${this.state.path}/package.json`);
       console.log(this.pkg);
@@ -34,22 +37,31 @@ export class Sonar {
       );
       return false;
     }
-  }
+  };
 
-  installSonar(): void {
-    if (this.checkPath() && this.checkPkg()) {
-      new Mnotification("Npm", "Now installing sonar-scanner");
-      const exec = global["exec"];
+  installSonar = async () => {
+    const exec = global["exec"];
+    return new Promise(async (resolve, rejects) => {
       const cmd = `cd ${this.state.path} && npm install --save sonar-scanner`;
-      exec(cmd, (error: any, stdout: any, stderr: any) => {
+      await exec(cmd, (error: any, stdout: any, stderr: any) => {
         if (error) {
-          console.log(error);
+          new Mnotification("Npm Install Error", error);
+          resolve(false);
         } else {
-          new Mnotification("Npm Install End", stdout);
+          new Mnotification("Npm Install Success", stdout);
+          resolve(true);
         }
       });
-    }
-  }
+    });
+  };
 
-  generateProperties(): void {}
+  generateProperties = async () => {
+    if (global["fs"]) {
+      const fs = global["fs"];
+      console.log(fs);
+      return true;
+    } else {
+      return false;
+    }
+  };
 }

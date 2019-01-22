@@ -3,7 +3,6 @@ import { Form, Select, Button, Input, Row } from "antd";
 import "./App.css";
 import AppComponentProp from "./prop/AppProp";
 import AppState from "./state/AppState";
-import { Mnotification } from "./native/Mnotification";
 import { Sonar } from "./native/Sonar";
 
 const FormItem = Form.Item;
@@ -26,26 +25,29 @@ const App = Form.create()(
         loading: false
       };
     }
-    public render() {
-      const generateProperties = (e: any) => {
-        this.setState({ loading: true });
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-          if (!err) {
-            this.setState({ loading: false });
-            new Sonar(values).installSonar();
-          }
-          if (err) {
-            for (let obj in err) {
-              err[obj].errors.forEach((error: any) => {
-                new Mnotification("Your Input Has Error", error.message);
-              });
-            }
-            this.setState({ loading: false });
-          }
-        });
-      };
 
+    generateProperties = (e: any) => {
+      this.setState({ loading: true });
+      e.preventDefault();
+      this.props.form.validateFields(async (err, values) => {
+        if (!err) {
+          const sonar: Sonar = new Sonar(values);
+          const path = await sonar.checkPath();
+          console.log(path);
+          if (!path) {
+            this.setState({ loading: false });
+            return;
+          }
+          const pkg = await sonar.checkPkg();
+          console.log(pkg);
+          if (!pkg) {
+            this.setState({ loading: false });
+            return;
+          }
+        }
+      });
+    };
+    public render() {
       const getFieldDecorator = this.props.form.getFieldDecorator;
       const formItemLayout = {
         labelCol: {
@@ -71,7 +73,7 @@ const App = Form.create()(
           <Row type="flex" justify="center" align="top">
             <img src="sonar.png" />
           </Row>
-          <Form onSubmit={generateProperties}>
+          <Form onSubmit={this.generateProperties}>
             <FormItem
               {...formItemLayout}
               label="Language"

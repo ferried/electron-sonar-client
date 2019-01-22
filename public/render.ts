@@ -1,6 +1,5 @@
 import * as electron from "electron";
 import * as fs from "fs";
-
 const loadPackage = function(path: string) {
   const pkg = require(path);
   return pkg;
@@ -9,5 +8,5 @@ const loadPackage = function(path: string) {
 const exec = require("child_process").exec;
 global["exec"] = exec;
 global["electron"] = electron;
-global["fs"] = fs;
 global["loadPackage"] = loadPackage;
+global["fs"] = fs;

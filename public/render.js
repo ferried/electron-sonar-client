@@ -9,5 +9,5 @@ var loadPackage = function (path) {
 var exec = require("child_process").exec;
 global["exec"] = exec;
 global["electron"] = electron;
-global["fs"] = fs;
 global["loadPackage"] = loadPackage;
+global["fs"] = fs;
