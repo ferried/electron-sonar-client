@@ -6,6 +6,8 @@ const loadPackage = function(path: string) {
   return pkg;
 };
 
+const exec = require("child_process").exec;
+global["exec"] = exec;
 global["electron"] = electron;
 global["fs"] = fs;
 global["loadPackage"] = loadPackage;

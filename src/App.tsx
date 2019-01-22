@@ -35,7 +35,7 @@ const App = Form.create()(
           if (!err) {
             this.setState({ loading: false });
             this.sonar = new Sonar(values);
-            this.sonar.generateProperties();
+            this.sonar.installSonar();
           }
           if (err) {
             for (let obj in err) {
