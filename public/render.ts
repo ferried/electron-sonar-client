@@ -1,12 +1,13 @@
 import * as electron from "electron";
 import * as fs from "fs";
+
 const loadPackage = function(path: string) {
   const pkg = require(path);
   return pkg;
 };
 
-const exec = require("child_process").exec;
-global["exec"] = exec;
+// tslint:disable-next-line: no-string-literal no-var-requires
 global["electron"] = electron;
-global["loadPackage"] = loadPackage;
+// tslint:disable-next-line: no-string-literal no-var-requires
 global["fs"] = fs;
+global["loadPackage"] = loadPackage;

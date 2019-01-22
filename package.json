@@ -15,7 +15,7 @@
     "tsc": "./node_modules/typescript/bin/tsc main.ts ./public/render.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 --pkg package.json",
     "electron": "electron .",
-    "electron-package": "yarn build && electron-packager . GukuSonar --darwin --out myapp --arch=x64 --overwrite --ignore=node_modules --ignore=myapp --electron-version=4.0.1 --icon=./public/favicon.icns"
+    "electron-package": "yarn build && electron-packager . app --darwin --out myapp --arch=x64 --overwrite --ignore=node_modules --ignore=myapp --electron-version=4.0.1"
   },
   "dependencies": {
     "@types/jest": "^23.3.12",
