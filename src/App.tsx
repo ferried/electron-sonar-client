@@ -33,17 +33,29 @@ const App = Form.create()(
         if (!err) {
           const sonar: Sonar = new Sonar(values);
           const path = await sonar.checkPath();
-          console.log(path);
           if (!path) {
             this.setState({ loading: false });
             return;
           }
+          console.log(path);
           const pkg = await sonar.checkPkg();
-          console.log(pkg);
           if (!pkg) {
             this.setState({ loading: false });
             return;
           }
+          console.log(pkg);
+          const install = await sonar.installSonar();
+          if (!install) {
+            this.setState({ loading: false });
+            return;
+          }
+          console.log(install);
+          const properties = await sonar.generateProperties();
+          if (!properties) {
+            this.setState({ loading: false });
+            return;
+          }
+          console.log(properties);
         }
       });
     };
