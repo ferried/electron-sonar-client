@@ -10,7 +10,6 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const App = Form.create()(
   class FormTest extends React.Component<AppComponentProp, AppState, any> {
-    private sonar: Sonar;
     constructor(props: AppComponentProp) {
       super(props);
       this.state = {
@@ -34,8 +33,7 @@ const App = Form.create()(
         this.props.form.validateFields((err, values) => {
           if (!err) {
             this.setState({ loading: false });
-            this.sonar = new Sonar(values);
-            this.sonar.installSonar();
+            new Sonar(values).installSonar();
           }
           if (err) {
             for (let obj in err) {
