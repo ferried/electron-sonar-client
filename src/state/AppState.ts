@@ -10,4 +10,5 @@ export default interface AppState {
   inclusions: string | null;
   lint: string | null;
   loading: boolean ;
+  publish:boolean;
 }

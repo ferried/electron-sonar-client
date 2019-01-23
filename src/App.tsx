@@ -4,6 +4,7 @@ import "./App.css";
 import AppComponentProp from "./prop/AppProp";
 import AppState from "./state/AppState";
 import { Sonar } from "./native/Sonar";
+import { Mnotification } from "./native/Mnotification";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -22,28 +23,76 @@ const App = Form.create()(
         sonartests: "src/app",
         inclusions: "**/*.spec.ts",
         lint: "./tslint.json",
-        loading: false
+        loading: false,
+        publish: false
       };
     }
 
+    publish = (e: any) => {
+      this.props.form.validateFields(async (err, values) => {
+        new Mnotification(
+          "Link Start!",
+          "Now Publish Project,Please Wait A Moment"
+        );
+        this.setState({ publish: true });
+        this.props.form.validateFields(async (err, values) => {
+          if (!err) {
+            const sonar: Sonar = new Sonar(values);
+            const path = await sonar.checkPath();
+            if (!path) {
+              this.setState({ publish: false });
+              return;
+            }
+            const pkg = await sonar.checkPkg();
+            if (!pkg) {
+              this.setState({ publish: false });
+              return;
+            }
+            const install = await sonar.installSonar();
+            if (!install) {
+              this.setState({ publish: false });
+              return;
+            }
+            const hasFile = await sonar.checkProp();
+            if (!hasFile) {
+              this.setState({ publish: false });
+              return;
+            }
+            const publish = await sonar.publish();
+            publish?this.setState({publish:false}):this.setState({publish:false});
+          }
+        });
+      });
+    };
+
     generateProperties = (e: any) => {
+      new Mnotification("Link Start!", "Now Generating,Please Wait A Moment");
       this.setState({ loading: true });
       e.preventDefault();
       this.props.form.validateFields(async (err, values) => {
         if (!err) {
           const sonar: Sonar = new Sonar(values);
           const path = await sonar.checkPath();
-          console.log(path);
           if (!path) {
             this.setState({ loading: false });
             return;
           }
           const pkg = await sonar.checkPkg();
-          console.log(pkg);
           if (!pkg) {
             this.setState({ loading: false });
             return;
           }
+          const install = await sonar.installSonar();
+          if (!install) {
+            this.setState({ loading: false });
+            return;
+          }
+          const properties = await sonar.generateProperties();
+          if (!properties) {
+            this.setState({ loading: false });
+            return;
+          }
+          this.setState({ loading: false });
         }
       });
     };
@@ -253,6 +302,16 @@ const App = Form.create()(
                 htmlType="submit"
               >
                 Generate Sonar Properties
+              </Button>
+            </FormItem>
+            <FormItem {...formTailLayout}>
+              <Button
+                type="primary"
+                size={"large"}
+                onClick={this.publish}
+                loading={this.state.publish}
+              >
+                Upload Project To Sonar Server
               </Button>
             </FormItem>
           </Form>
