@@ -18,7 +18,7 @@ export class MyWindow {
         // tslint:disable-next-line: object-literal-sort-keys
         nodeIntegration: false, // 不集成 Nodejs
         webSecurity: false,
-        preload: path.join(__dirname, "./public/render.js") // 但预加载的 js 文件内仍可以使用 Nodejs 的 API
+        preload: path.join(__dirname, "../../public/render.js") // 但预加载的 js 文件内仍可以使用 Nodejs 的 API
       }
     });
     if (pkg.DEV) {

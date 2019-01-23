@@ -1,20 +1,20 @@
 {
-  "name": "typescript-sonar-client",
+  "name": "electron-sonar-client",
   "version": "1.0.5-alpha",
   "description": "null",
-  "main": "main.js",
+  "main": "./build/src/native/main.js",
   "author": "ferried <harlancui@outlook.com>",
   "license": "MIT",
   "DEV": true,
   "homepage": ".",
   "scripts": {
     "start": "react-scripts-ts-antd start",
-    "build": "react-scripts-ts-antd build && yarn tsc",
+    "build": "react-scripts-ts-antd build",
+    "tsc":"./node_modules/.bin/tsc",
     "test": "react-scripts-ts-antd test --env=jsdom",
     "eject": "react-scripts-ts-antd eject",
-    "tsc": "./node_modules/typescript/bin/tsc main.ts ./public/render.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 --pkg package.json",
-    "electron": "electron .",
+    "electron": "electron ./build/src/client/main.js",
     "electron-package": "yarn build && electron-packager . GukuSonar --darwin --out myapp --arch=x64 --overwrite --ignore=node_modules --ignore=myapp --electron-version=4.0.1 --icon=./public/favicon.icns"
   },
   "dependencies": {
