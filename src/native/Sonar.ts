@@ -41,12 +41,13 @@ export class Sonar {
 
   installSonar = async () => {
     return new Promise(async (resolve, rejects) => {
-      const cmd = `cd ${this.state.path} && npm install --save sonar-scanner`;
+      const cmd = `cd ${this.state.path} && npm install sonar-scanner`;
       await this.exec(cmd, (error: any, stdout: any, stderr: any) => {
         if (error) {
           new Mnotification("Npm Install Error", error);
           resolve(false);
         } else {
+          console.log(stdout);
           resolve(true);
         }
       });
@@ -79,8 +80,43 @@ export class Sonar {
         return false;
       }
     );
+    new Mnotification(
+      "Generate Success",
+      "generate a properties in your project"
+    );
     return true;
   };
 
-  publish = async () => {};
+  checkProp = async () => {
+    return new Promise(async (resolve, rejects) => {
+      await this.fs.exists(
+        `${this.state.path}/sonar-project.properties`,
+        (exists: boolean) => {
+          if (exists) {
+            resolve(exists);
+          } else {
+            new Mnotification(
+              "Sonar Prop Error",
+              "Not Found sonar-project.properties"
+            );
+          }
+        }
+      );
+    });
+  };
+
+  publish = async () => {
+    return new Promise(async (resolve, rejects) => {
+      const cmd = `cd ${this.state.path} && ./node_modules/sonar-scanner/bin/sonar-scanner`;
+      await this.exec(cmd, (error: any, stdout: any, stderr: any) => {
+        if (error) {
+          new Mnotification("Publish Error", error);
+          resolve(false);
+        } else {
+          new Mnotification("Publish Success",stdout);
+          resolve(true);
+        }
+      });
+    });
+  };
 }
